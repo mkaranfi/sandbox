@@ -1,0 +1,11 @@
+{
+  "name": "sandbox",
+  "version": "1.0.0",
+  "description": "Repository for testing",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "author": "Mile Karanfilov",
+  "license": "ISC"
+}
