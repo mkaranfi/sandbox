@@ -4,8 +4,12 @@
   "description": "Repository for testing",
   "main": "index.js",
   "scripts": {
-    "test": "npm test"
+    "test": "jest"
   },
   "author": "Mile Karanfilov",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@types/jest": "^29.5.14",
+    "jest": "^29.7.0"
+  }
 }
