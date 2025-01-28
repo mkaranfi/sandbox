@@ -43,7 +43,13 @@ jobs:
 
     - name: Deploy development to GitHub Pages
       run: |
+          git config --global user.name $user_name
+          git config --global user.email $user_email
+          git remote set-url origin https://${github_token}@github.com/${repository}
           echo "dev.<username>.github.io" > dev/CNAME
           npm run deploy
       env:
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
           GITHUB_TOKEN: ${{ secrets.ACTIONS_DEPLOY_ACCESS_TOKEN }}
+          repository: ${{ github.repository }}
