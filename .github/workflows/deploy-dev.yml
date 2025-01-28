@@ -42,6 +42,10 @@ jobs:
     - name: Build
       run: npm run build
 
+    - name: Create CNAME file for development URL
+      run: |
+        echo "https://dev.mkaranfi.github.io/sandbox/" > dist/CNAME
+
     - name: Deploy to Development
       run: |
         git config --global user.name $user_name
