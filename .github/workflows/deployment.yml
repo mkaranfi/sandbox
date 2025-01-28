@@ -7,9 +7,10 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  build-and-deploy:
 
     runs-on: ubuntu-latest
+    environment: production
 
     strategy:
       matrix:
