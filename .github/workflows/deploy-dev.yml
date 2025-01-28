@@ -6,6 +6,7 @@ on:
 
 jobs:
   build-and-deploy:
+    name: Build and deploy Dev
 
     runs-on: ubuntu-latest
     environment: development
