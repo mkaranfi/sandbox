@@ -1,0 +1,49 @@
+name: Prepare Draft Release
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  create-draft:
+    name: Create draft
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete drafts
+        uses: hugo19941994/delete-draft-releases@v1.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Obtain new tag
+        run: |
+          CURRENT=$(git tag --sort=-version:refname | head -n1)
+          NEW=$(echo ${CURRENT} | awk -F. '{print $1"."$2"."$3+1}')
+          echo "RELEASE_TAG=${NEW#}" >> $GITHUB_ENV
+
+          echo current $CURRENT
+          echo new $NEW
+
+      - name: "Create release"
+        id: create-release
+        uses: "actions/github-script@v7"
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          script: |
+            try {
+              let release = await github.rest.repos.createRelease({
+                draft: true,
+                generate_release_notes: true,
+                name: process.env.RELEASE_TAG,
+                owner: context.repo.owner,
+                prerelease: false,
+                repo: context.repo.repo,
+                target_commitish: "master",
+                tag_name: process.env.RELEASE_TAG,
+              });
+            } catch (error) {
+              core.setFailed(error.message);
+            }
