@@ -47,7 +47,7 @@ jobs:
           git config --global user.email $user_email
           git remote set-url origin https://${github_token}@github.com/${repository}
           echo "https://dev.${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/" > dev/CNAME
-          npm run deploy --prefix=dev
+          npm run deploy -- --branch=master --prefix=dev
       env:
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
