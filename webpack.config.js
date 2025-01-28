@@ -8,9 +8,7 @@ module.exports = (env, argv) => {
         entry: './index.js', // Entry point for your application
         output: {
             filename: 'bundle.js', // Output file name
-            path: isProduction
-                ? path.resolve(__dirname, 'dist')  // Production: Output to 'dist'
-                : path.resolve(__dirname, 'dev') // Development: Output to 'dev'
+            path: path.resolve(__dirname, 'dist')
         },
         mode: isProduction ? 'production' : 'development', // Set mode to 'development' or 'production'
         devtool: 'source-map', // Enable source maps for easier debugging
