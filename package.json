@@ -7,7 +7,7 @@
     "test": "jest",
     "build": "webpack --config webpack.config.js",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d dist"
   },
   "author": "Mile Karanfilov",
   "license": "ISC",
