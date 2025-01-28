@@ -7,7 +7,7 @@
     "test": "jest",
     "build": "webpack --config webpack.config.js --mode development",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dev --prefix=dev"
+    "deploy": "gh-pages -d dev"
   },
   "author": "Mile Karanfilov",
   "license": "ISC",
