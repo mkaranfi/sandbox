@@ -13,6 +13,7 @@
 .DS_Store
 *.pem
 /dist
+/dev
 
 # debug
 npm-debug.log*
