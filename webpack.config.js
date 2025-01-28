@@ -1,3 +1,4 @@
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
 module.exports = {
@@ -6,7 +7,7 @@ module.exports = {
         filename: 'bundle.js', // Output file name
         path: path.resolve(__dirname, 'dist'), // Output directory
     },
-    mode: 'development', // Set mode to 'development' or 'production'
+    mode: 'production', // Set mode to 'development' or 'production'
     devtool: 'source-map', // Enable source maps for easier debugging
     module: {
         rules: [
@@ -17,4 +18,11 @@ module.exports = {
             },
         ],
     },
+    plugins: [
+        // This will generate a new index.html and inject the JS file(s)
+        new HtmlWebpackPlugin({
+            template: './index.html', // Path to your index.html template
+            filename: 'index.html',       // Output file name (in dist folder)
+        }),
+    ],
 };
