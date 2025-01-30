@@ -24,8 +24,9 @@ module.exports = (env, argv) => {
         plugins: [
             // This will generate a new index.html and inject the JS file(s)
             new HtmlWebpackPlugin({
+                title: isProduction ? 'App (Prod)' : 'App (Dev)',
                 template: isProduction ? './index.html' : './index.dev.html', // Path to your index.html template
-                filename: isProduction ? './index.html' : './index.dev.html', // Output file name (in dist folder)
+                filename: 'index.html' // Output file name (in dist folder)
             }),
         ],
     }
