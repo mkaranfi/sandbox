@@ -40,18 +40,14 @@ jobs:
       run: npm test
 
     - name: Build
-      run: npm run build:dev
-
-    - name: Create CNAME file for development URL
-      run: |
-        echo "https://dev.mkaranfi.github.io/sandbox/" > dist/CNAME
+      run: npm run build --mode=development
 
     - name: Deploy to Development
       run: |
         git config --global user.name $user_name
         git config --global user.email $user_email
         git remote set-url origin https://${github_token}@github.com/${repository}
-        npm run deploy
+        npm run deploy --mode=development
       env:
         user_name: 'github-actions[bot]'
         user_email: 'github-actions[bot]@users.noreply.github.com'
