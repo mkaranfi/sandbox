@@ -6,9 +6,7 @@ updates:
       interval: "weekly"
     open-pull-requests-limit: 3
     ignore:
-      # All dependencies
       - dependency-name: "*"
-        # ignore all major updates
         update-types: [ "version-update:semver-major" ]
   - package-ecosystem: "github-actions"
     directory: "/"

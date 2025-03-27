@@ -1,0 +1,60 @@
+name: Assign Random Reviewers
+
+on:
+  pull_request:
+    types: [ opened ]
+    branches:
+      - main
+
+jobs:
+  assign-reviewers:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Check if PR is from Dependabot
+        id: check-dependabot
+        run: |
+          if [[ "${{ github.actor }}" != "dependabot[bot]" ]]; then
+            echo "This PR is not from Dependabot, exiting."
+            echo "should_skip=true" >> $GITHUB_ENV
+            exit 0
+          fi
+
+      - name: Get team members
+        if: ${{ env.should_skip != 'true' }}
+        id: get-team-members
+        run: |
+          TEAM_NAME="frontend-activation-team"
+          ORG_NAME="surfe"
+          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+          
+          # Fetch team members
+          members=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \
+            "https://api.github.com/orgs/$ORG_NAME/teams/$TEAM_NAME/members")
+          
+          # Parse member login names
+          member_logins=$(echo "$members" | jq -r '.[].login')
+          echo "members=$member_logins" >> $GITHUB_ENV
+
+      - name: Select random reviewers
+        if: ${{ env.should_skip != 'true' }}
+        id: select-reviewers
+        run: |
+          member_logins=(${{ env.members }})
+          random_reviewers=($(shuf -e "${member_logins[@]}" -n 2))
+          echo "reviewer1=${random_reviewers[0]}" >> $GITHUB_ENV
+          echo "reviewer2=${random_reviewers[1]}" >> $GITHUB_ENV
+
+      - name: Assign reviewers to pull request
+        if: ${{ env.should_skip != 'true' }}
+        run: |
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          REVIEWER1=${{ env.reviewer1 }}
+          REVIEWER2=${{ env.reviewer2 }}
+          
+          curl -X POST -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -d '{"reviewers":["'"$REVIEWER1"'","'"$REVIEWER2"'"]}' \
+            "https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER/requested_reviewers"
