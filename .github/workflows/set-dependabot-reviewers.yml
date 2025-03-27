@@ -4,7 +4,7 @@ on:
   pull_request:
     types: [ opened ]
     branches:
-      - main
+      - master
 
 jobs:
   assign-reviewers:
@@ -27,8 +27,8 @@ jobs:
         if: ${{ env.should_skip != 'true' }}
         id: get-team-members
         run: |
-          TEAM_NAME="frontend-activation-team"
-          ORG_NAME="surfe"
+          TEAM_NAME="test-team"
+          ORG_NAME="test-org"
           GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
           
           # Fetch team members
