@@ -1,0 +1,17 @@
+name: Assign Random Reviewers
+
+on:
+  pull_request:
+
+jobs:
+  add-reviewers:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Auto assign reviewers
+        id: auto-assign-reviewers
+        uses: kentaro-m/auto-assign-action@v2.0.0
+        with:
+          configuration-path: '.github/reviewers-config.yml'
