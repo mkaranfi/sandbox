@@ -43,11 +43,11 @@ jobs:
             });
 
             // get auto_deploy flag from the triggering workflow's outputs
-            let autoDeploy = false;
+            let autoDeploy = "false";
             if (workflow.data.jobs) {
               const installJob = workflow.data.jobs.find(j => j.id === "install");
               if (installJob && installJob.outputs && installJob.outputs.auto_deploy) {
-                autoDeploy = installJob.outputs.auto_deploy === "true";
+                autoDeploy = installJob.outputs.auto_deploy
               }
             }
 
@@ -61,7 +61,7 @@ jobs:
           script: |
             try {
               let release = await github.rest.repos.createRelease({
-                draft: ${{ !steps.get-workflow-data.outputs.auto_deploy }},
+                draft: ${{ steps.get-workflow-data.outputs.auto_deploy != 'true' }},
                 generate_release_notes: true,
                 name: process.env.RELEASE_TAG,
                 owner: context.repo.owner,
