@@ -1,0 +1,36 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+/dist
+/dev
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# typescript
+*.tsbuildinfo
+
+# jetbrains
+.idea
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+auth.json
+auth.*.json
+e2e/lighthouse/actions/test-csv-*.csv
+

@@ -1,0 +1,21 @@
+name: Main Workflow
+
+on:
+  pull_request:
+
+jobs:
+  install:
+    timeout-minutes: 30
+    name: Install, Deploy
+    runs-on: ubuntu-latest
+    outputs:
+      auto_deploy: ${{ steps.checkLabels.outputs.auto_deploy }}
+    steps:
+      - name: Check for auto-deploy label
+        id: checkLabels
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const shouldAutoDeploy = context.payload.pull_request.labels.some(x => x.name === "auto-deploy");
+            core.setOutput("auto_deploy", shouldAutoDeploy.toString());
