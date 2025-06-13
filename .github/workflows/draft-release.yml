@@ -51,12 +51,21 @@ jobs:
               commit_sha: commitSha,
             });
 
-            if (prs.data.length === 0) {
-              core.setFailed("No PR found for commit");
+            const mergedPRs = prs.data.filter(pr => !!pr.merged_at);
+
+            if (mergedPRs.length === 0) {
+              core.setFailed(`No PRs found for commit ${commitSha}`);
               return;
             }
 
-            const pr = prs.data[0];
+            if (mergedPRs.length > 1) {
+              const msg = `commit: ${commitSha}, merged PRs: ${mergedPRs.map(pr => pr.number).join(", ")}`
+              core.info(msg);
+              core.setFailed("Multiple merged PRs found associated with commit, not sure what to do..");
+              return;
+            }
+
+            const pr = mergedPRs[0];
             const labels = pr.labels.map(label => label.name);
             core.info(`PR labels: ${labels.join(", ")}`);
 
