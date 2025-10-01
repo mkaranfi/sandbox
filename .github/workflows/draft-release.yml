@@ -39,7 +39,7 @@ jobs:
 
       - name: Check if auto-deploy label is set
         id: get-workflow-data
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -53,7 +53,7 @@ jobs:
 
       - name: Create release
         id: create-release
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
           script: |
